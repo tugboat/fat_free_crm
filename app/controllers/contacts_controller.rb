@@ -69,7 +69,7 @@ class ContactsController < ApplicationController
     @contact  = Contact.new(:user => @current_user, :access => Setting.default_access)
     @account  = Account.new(:user => @current_user)
     @users    = User.except(@current_user)
-    @accounts = Account.my.order("name")
+    @accounts = Account.order("name").my.limit(10)
     if params[:related]
       model, id = params[:related].split("_")
       instance_variable_set("@#{model}", model.classify.constantize.my.find(id))
@@ -91,7 +91,7 @@ class ContactsController < ApplicationController
     @contact  = Contact.my.find(params[:id])
     @users    = User.except(@current_user)
     @account  = @contact.account || Account.new(:user => @current_user)
-    @accounts = Account.my.order("name")
+    @accounts = Account.order("name").my.limit(10)
     if params[:previous].to_s =~ /(\d+)\z/
       @previous = Contact.my.find($1)
     end
@@ -116,7 +116,7 @@ class ContactsController < ApplicationController
         format.xml  { render :xml => @contact, :status => :created, :location => @contact }
       else
         @users = User.except(@current_user)
-        @accounts = Account.my.order("name")
+        @accounts = Account.order("name").my.limit(10)
         unless params[:account][:id].blank?
           @account = Account.find(params[:account][:id])
         else
@@ -148,7 +148,7 @@ class ContactsController < ApplicationController
         format.xml  { head :ok }
       else
         @users = User.except(@current_user)
-        @accounts = Account.my.order("name")
+        @accounts = Account.order("name").my.limit(10)
         if @contact.account
           @account = Account.find(@contact.account.id)
         else

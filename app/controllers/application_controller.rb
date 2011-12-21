@@ -42,7 +42,10 @@ class ApplicationController < ActionController::Base
       @auto_complete = @auto_complete.last
     end
     session[:auto_complete] = controller_name.to_sym
-    render "shared/auto_complete", :layout => nil
+    respond_to do |format|
+      format.js   { render "shared/auto_complete", :layout => nil }
+      format.json { render :json => @auto_complete.inject({}){|h,a| h[a.id] = a.name; h } }
+    end
   end
 
   # Common attach handler for all core controllers.

@@ -23,6 +23,8 @@
 //= require modalbox
 //= require facebooklist
 //= require facebooklist.simulate
+//= require chosen-prototype
+//= require ajax-chosen.proto
 
 var fbtaglist = null;
 
@@ -141,13 +143,22 @@ var crm = {
     }
   },
 
+  ensure_chosen_account: function() {
+    if (! $("account_id_chzn")) { 
+      new ajaxChosen($("account_id"), 
+      {url:       "/accounts/auto_complete.json",
+       query_key: "auto_complete_query"})
+    }
+  },
+
   // Hide accounts dropdown and show create new account edit field instead.
   //----------------------------------------------------------------------------
   create_account: function(and_focus) {
+    crm.ensure_chosen_account();
     $("account_disabled_title").hide();
     $("account_select_title").hide();
     $("account_create_title").show();
-    $("account_id").hide();
+    $("account_id_chzn").hide();
     $("account_id").disable();
     $("account_name").enable();
     $("account_name").clear();
@@ -160,28 +171,27 @@ var crm = {
   // Hide create account edit field and show accounts dropdown instead.
   //----------------------------------------------------------------------------
   select_account: function(and_focus) {
+    crm.ensure_chosen_account();
     $("account_disabled_title").hide();
     $("account_create_title").hide();
     $("account_select_title").show();
     $("account_name").hide();
     $("account_name").disable();
     $("account_id").enable();
-    $("account_id").show();
-    if (and_focus) {
-      $("account_id").focus();
-    }
+    $("account_id_chzn").show();
   },
 
   // Show accounts dropdown and disable it to prevent changing the account.
   //----------------------------------------------------------------------------
   select_existing_account: function() {
+    crm.ensure_chosen_account();
     $("account_create_title").hide();
     $("account_select_title").hide();
     $("account_disabled_title").show();
     $("account_name").hide();
     $("account_name").disable();
     $("account_id").disable();
-    $("account_id").show();
+    $("account_id_chzn").show();
   },
 
   //----------------------------------------------------------------------------

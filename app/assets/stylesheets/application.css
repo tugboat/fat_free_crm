@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *------------------------------------------------------------------------------
  */
- 
+
 /*
  *= require base
  *= require header
@@ -25,4 +25,5 @@
  *= require safari
  *= require modalbox
  *= require facebooklist
+ *= require chosen
  */
