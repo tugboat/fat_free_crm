@@ -25,7 +25,7 @@
 //= require facebooklist.simulate
 //= require chosen-prototype
 //= require ajax-chosen.proto
-
+ 
 var fbtaglist = null;
 
 var crm = {
@@ -146,8 +146,11 @@ var crm = {
   ensure_chosen_account: function() {
     if (! $("account_id_chzn")) { 
       new ajaxChosen($("account_id"), 
-      {url:       "/accounts/auto_complete.json",
-       query_key: "auto_complete_query"})
+      {allow_single_deselect: true,
+       show_on_activate: true,
+       url:       "/accounts/auto_complete.json",
+       parameters: {limit: 25},
+       query_key: "auto_complete_query"});
     }
   },
 

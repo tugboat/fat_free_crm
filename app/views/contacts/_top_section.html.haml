@@ -43,6 +43,8 @@
           %td
             .label #{t :assigned_to}:
             = collection_select :contact, :assigned_to, @users, :id, :full_name, { :include_blank => t(:myself) }, { :style => "width:160px" }
+            :javascript
+              new Chosen($('contact_assigned_to'));
 
         - if Setting.background_info && Setting.background_info.include?(:contact)
           %tr
